@@ -497,7 +497,9 @@ onClickOutside(createBtn as Ref<VueInstance>, () => {
 		img {
 			position: relative;
 			left: 1px;
-			height: 20px;
+			height: auto; /* Ensures it scales properly */
+			width: 150px; /* Adjust width to fit within sidebar */
+			max-width: 100%;
 		}
 	}
 
@@ -510,6 +512,11 @@ onClickOutside(createBtn as Ref<VueInstance>, () => {
 			gap: 12px;
 		}
 	}
+}
+
+.sideMenuCollapsed .logo img {
+	width: 40px; /* Set a reduced size for collapsed mode */
+	height: auto;
 }
 
 .sideMenuCollapseButton {
