@@ -118,16 +118,50 @@ registerKeyHook('NodeCreatorCloseTab', {
 	handler: () => emit('closeNodeCreator'),
 });
 
+const nodeTypesStore = useNodeTypesStore();
+
+// Ensure node types are loaded
+const loadNodeTypes = async () => {
+	console.log('Loading node types...');
+	try {
+		// If node types aren't already loaded, load them explicitly
+		await nodeTypesStore.loadNodeTypesIfNotLoaded();
+		console.log(`Loaded ${nodeTypesStore.visibleNodeTypes.length} visible node types`);
+	} catch (error) {
+		console.error('Error loading node types:', error);
+	}
+};
+
+// Call this when the component is created
+void loadNodeTypes();
+
 watch(
 	() => ({
 		httpOnlyCredentials: useCredentialsStore().httpOnlyCredentialTypes,
-		nodeTypes: useNodeTypesStore().visibleNodeTypes,
+		nodeTypes: nodeTypesStore.visibleNodeTypes,
 	}),
 	({ nodeTypes, httpOnlyCredentials }) => {
-		const { actions, mergedNodes } = generateMergedNodesAndActions(nodeTypes, httpOnlyCredentials);
+		console.log(`Processing ${nodeTypes?.length || 0} node types`);
+		try {
+			// Handle the case where nodeTypes might be undefined or empty
+			if (!nodeTypes || nodeTypes.length === 0) {
+				console.warn('No node types available. Check backend connection and nodeTypes store.');
+				return;
+			}
 
-		setActions(actions);
-		setMergeNodes(mergedNodes);
+			const { actions, mergedNodes } = generateMergedNodesAndActions(
+				nodeTypes,
+				httpOnlyCredentials,
+			);
+			console.log(
+				`Generated ${mergedNodes.length} merged nodes and ${Object.keys(actions).length} actions`,
+			);
+
+			setActions(actions);
+			setMergeNodes(mergedNodes);
+		} catch (error) {
+			console.error('Error generating nodes and actions:', error);
+		}
 	},
 	{ immediate: true },
 );

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TabBar from '@/components/MainHeader/TabBar.vue';
+// TabBar import removed as it's no longer used
 import WorkflowDetails from '@/components/MainHeader/WorkflowDetails.vue';
 import { useI18n } from '@/composables/useI18n';
 import { usePushConnection } from '@/composables/usePushConnection';
@@ -9,12 +9,11 @@ import {
 	PLACEHOLDER_EMPTY_WORKFLOW_ID,
 	STICKY_NODE_TYPE,
 	VIEWS,
-	WORKFLOW_EVALUATION_EXPERIMENT,
 	N8N_MAIN_GITHUB_REPO_URL,
 } from '@/constants';
 import { useExecutionsStore } from '@/stores/executions.store';
 import { useNDVStore } from '@/stores/ndv.store';
-import { usePostHog } from '@/stores/posthog.store';
+// usePostHog removed as it's no longer needed
 import { useSettingsStore } from '@/stores/settings.store';
 import { useSourceControlStore } from '@/stores/sourceControl.store';
 import { useUIStore } from '@/stores/ui.store';
@@ -36,7 +35,7 @@ const sourceControlStore = useSourceControlStore();
 const workflowsStore = useWorkflowsStore();
 const executionsStore = useExecutionsStore();
 const settingsStore = useSettingsStore();
-const posthogStore = usePostHog();
+// posthogStore removed as it's no longer used after tab removal
 
 const activeHeaderTab = ref(MAIN_HEADER_TABS.WORKFLOW);
 const workflowToReturnTo = ref('');
@@ -62,19 +61,9 @@ const executionRoutes: VIEWS[] = [
 	VIEWS.WORKFLOW_EXECUTIONS,
 	VIEWS.EXECUTION_PREVIEW,
 ];
+// Tabs have been moved to sidebar, this is kept for compatibility
 const tabBarItems = computed(() => {
-	const items = [
-		{ value: MAIN_HEADER_TABS.WORKFLOW, label: locale.baseText('generic.editor') },
-		{ value: MAIN_HEADER_TABS.EXECUTIONS, label: locale.baseText('generic.executions') },
-	];
-
-	if (posthogStore.isFeatureEnabled(WORKFLOW_EVALUATION_EXPERIMENT)) {
-		items.push({
-			value: MAIN_HEADER_TABS.TEST_DEFINITION,
-			label: locale.baseText('generic.tests'),
-		});
-	}
-	return items;
+	return [];
 });
 
 const activeNode = computed(() => ndvStore.activeNode);
@@ -239,37 +228,14 @@ function hideGithubButton() {
 					:active="workflow.active"
 					:read-only="readOnly"
 				/>
-				<div v-if="showGitHubButton" :class="[$style['github-button'], 'hidden-sm-and-down']">
-					<div :class="$style['github-button-container']">
-						<GithubButton
-							:href="N8N_MAIN_GITHUB_REPO_URL"
-							:data-color-scheme="uiStore.appliedTheme"
-							data-size="large"
-							data-show-count="true"
-							:aria-label="locale.baseText('editor.mainHeader.githubButton.label')"
-						>
-							{{ locale.baseText('generic.star') }}
-						</GithubButton>
-						<N8nIcon
-							:class="$style['close-github-button']"
-							icon="times-circle"
-							size="medium"
-							@click="hideGithubButton"
-						/>
-					</div>
-				</div>
 			</div>
-			<TabBar
-				v-if="onWorkflowPage"
-				:items="tabBarItems"
-				:model-value="activeHeaderTab"
-				@update:model-value="onTabSelected"
-			/>
+			<!-- TabBar removed as per requirements to move navigation to sidebar -->
 		</div>
 	</div>
 </template>
 
 <style module lang="scss">
+@import './lumiflow-header.scss';
 .container {
 	display: flex;
 	position: relative;

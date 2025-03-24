@@ -1,0 +1,173 @@
+// Lumiflow Global Styles
+// This file contains global style overrides for the Lumiflow branding
+
+// Apply typography to base elements
+body {
+	font-family: var(--font-family-body);
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--color-text-dark);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--font-family-headings);
+	font-weight: 600;
+	margin-bottom: var(--spacing-s);
+}
+
+code,
+pre,
+.code-editor {
+	font-family: var(--font-family-monospace);
+}
+
+// Button styling
+.el-button {
+	border-radius: 4px;
+	padding: var(--spacing-2xs) var(--spacing-s);
+	font-family: var(--font-family-headings);
+	font-weight: 500;
+	transition: all 0.2s ease;
+}
+
+.el-button--primary {
+	background-color: var(--color-primary);
+	border-color: var(--color-primary);
+
+	&:hover,
+	&:focus {
+		background-color: darken(#e27056, 5%);
+		border-color: darken(#e27056, 5%);
+	}
+}
+
+.el-button--success {
+	background-color: var(--color-success);
+	border-color: var(--color-success);
+
+	&:hover,
+	&:focus {
+		background-color: darken(#519e81, 5%);
+		border-color: darken(#519e81, 5%);
+	}
+}
+
+// Input styling
+.el-input__inner {
+	border-radius: 4px;
+	height: 36px;
+	padding: var(--spacing-2xs) var(--spacing-xs);
+
+	&:focus,
+	&:hover {
+		border-color: var(--color-primary);
+	}
+}
+
+// Dropdown/Select styling
+.el-select-dropdown__item.selected {
+	color: var(--color-primary);
+}
+
+// Alert/notification styling
+.el-notification {
+	border-radius: 4px;
+
+	.el-notification__title {
+		font-family: var(--font-family-headings);
+	}
+
+	&.success {
+		background-color: var(--color-success);
+	}
+
+	&.warning {
+		background-color: var(--color-warning);
+	}
+
+	&.info {
+		background-color: var(--color-info);
+	}
+}
+
+// Dialog styling
+.el-dialog {
+	border-radius: 6px;
+	overflow: hidden;
+
+	.el-dialog__header {
+		background-color: var(--color-background-xlight);
+		padding: var(--spacing-s) var(--spacing-m);
+		border-bottom: 1px solid var(--color-foreground-base);
+
+		.el-dialog__title {
+			font-family: var(--font-family-headings);
+			font-weight: 600;
+		}
+	}
+
+	.el-dialog__body {
+		padding: var(--spacing-m);
+	}
+
+	.el-dialog__footer {
+		padding: var(--spacing-s) var(--spacing-m);
+		border-top: 1px solid var(--color-foreground-base);
+	}
+}
+
+// Tab styling
+.el-tabs__item {
+	font-family: var(--font-family-headings);
+
+	&.is-active {
+		color: var(--color-primary);
+	}
+}
+
+// Menu styling
+.el-menu-item {
+	font-family: var(--font-family-body);
+
+	&.is-active {
+		color: var(--color-primary);
+	}
+}
+
+// Card styling
+.el-card {
+	border-radius: 6px;
+
+	.el-card__header {
+		font-family: var(--font-family-headings);
+		padding: var(--spacing-s) var(--spacing-m);
+	}
+
+	.el-card__body {
+		padding: var(--spacing-s);
+	}
+}
+
+// Workflow canvas elements
+.node-creator {
+	font-family: var(--font-family-body);
+}
+
+// Tags
+.el-tag {
+	font-family: var(--font-family-body);
+	background-color: rgba(81, 158, 129, 0.1);
+	border-color: var(--color-secondary);
+	color: var(--color-secondary);
+
+	&--primary {
+		background-color: rgba(226, 112, 86, 0.1);
+		border-color: var(--color-primary);
+		color: var(--color-primary);
+	}
+}

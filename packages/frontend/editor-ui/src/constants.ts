@@ -474,6 +474,7 @@ export const enum VIEWS {
 	HOMEPAGE = 'Homepage',
 	COLLECTION = 'TemplatesCollectionView',
 	EXECUTIONS = 'Executions',
+	EXECUTIONS_ALL = 'ExecutionsAll',
 	EXECUTION_PREVIEW = 'ExecutionPreview',
 	EXECUTION_DEBUG = 'ExecutionDebug',
 	EXECUTION_HOME = 'ExecutionsLandingPage',

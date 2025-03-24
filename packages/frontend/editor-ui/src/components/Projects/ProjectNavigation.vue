@@ -23,7 +23,7 @@ const displayProjects = computed(() => globalEntityCreation.displayProjects.valu
 
 const home = computed<IMenuItem>(() => ({
 	id: 'home',
-	label: locale.baseText('projects.menu.overview'),
+	label: 'Dashboard',
 	icon: 'home',
 	route: {
 		to: { name: VIEWS.HOMEPAGE },

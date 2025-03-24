@@ -67,103 +67,92 @@ const userMenuItems = ref([
 	},
 ]);
 
-const mainMenuItems = computed(() => [
-	{
-		id: 'cloud-admin',
-		position: 'bottom',
-		label: 'Admin Panel',
-		icon: 'cloud',
-		available: settingsStore.isCloudDeployment && hasPermission(['instanceOwner']),
-	},
-	{
-		// Link to in-app templates, available if custom templates are enabled
-		id: 'templates',
-		icon: 'box-open',
-		label: i18n.baseText('mainSidebar.templates'),
-		position: 'bottom',
-		available: settingsStore.isTemplatesEnabled && templatesStore.hasCustomTemplatesHost,
-		route: { to: { name: VIEWS.TEMPLATES } },
-	},
-	{
-		// Link to website templates, available if custom templates are not enabled
-		id: 'templates',
-		icon: 'box-open',
-		label: i18n.baseText('mainSidebar.templates'),
-		position: 'bottom',
-		available: settingsStore.isTemplatesEnabled && !templatesStore.hasCustomTemplatesHost,
-		link: {
-			href: templatesStore.websiteTemplateRepositoryURL,
-			target: '_blank',
+const mainMenuItems = computed(() => {
+	// Define all possible menu items
+	const allItems = [
+		{
+			id: 'workflows',
+			icon: 'network-wired',
+			label: 'Workflows',
+			position: 'top',
+			available: true,
+			route: { to: { name: VIEWS.WORKFLOWS } },
 		},
-	},
-	{
-		id: 'variables',
-		icon: 'variable',
-		label: i18n.baseText('mainSidebar.variables'),
-		customIconSize: 'medium',
-		position: 'bottom',
-		route: { to: { name: VIEWS.VARIABLES } },
-	},
-	{
-		id: 'help',
-		icon: 'question',
-		label: i18n.baseText('mainSidebar.help'),
-		position: 'bottom',
-		children: [
-			{
-				id: 'quickstart',
-				icon: 'video',
-				label: i18n.baseText('mainSidebar.helpMenuItems.quickstart'),
-				link: {
-					href: 'https://www.youtube.com/watch?v=1MwSoB0gnM4',
-					target: '_blank',
-				},
+		{
+			id: 'credentials',
+			icon: 'key',
+			label: 'Credentials',
+			position: 'top',
+			available: true,
+			route: { to: { name: VIEWS.CREDENTIALS } },
+		},
+		{
+			id: 'executions',
+			icon: 'clock',
+			label: 'Executions',
+			position: 'top',
+			available: true,
+			route: { to: { name: VIEWS.EXECUTIONS_ALL } },
+		},
+		{
+			id: 'cloud-admin',
+			position: 'bottom',
+			label: 'Admin Panel',
+			icon: 'cloud',
+			available: settingsStore.isCloudDeployment && hasPermission(['instanceOwner']),
+		},
+		{
+			// Link to in-app templates, available if custom templates are enabled
+			id: 'templates',
+			icon: 'box-open',
+			label: i18n.baseText('mainSidebar.templates'),
+			position: 'bottom',
+			available: false, // Force to false to hide this item
+			route: { to: { name: VIEWS.TEMPLATES } },
+		},
+		{
+			// Link to website templates, available if custom templates are not enabled
+			id: 'templates',
+			icon: 'box-open',
+			label: i18n.baseText('mainSidebar.templates'),
+			position: 'bottom',
+			available: false, // Force to false to hide this item
+			link: {
+				href: templatesStore.websiteTemplateRepositoryURL,
+				target: '_blank',
 			},
-			{
-				id: 'docs',
-				icon: 'book',
-				label: i18n.baseText('mainSidebar.helpMenuItems.documentation'),
-				link: {
-					href: 'https://docs.n8n.io?utm_source=n8n_app&utm_medium=app_sidebar',
-					target: '_blank',
-				},
-			},
-			{
-				id: 'forum',
-				icon: 'users',
-				label: i18n.baseText('mainSidebar.helpMenuItems.forum'),
-				link: {
-					href: 'https://community.n8n.io?utm_source=n8n_app&utm_medium=app_sidebar',
-					target: '_blank',
-				},
-			},
-			{
-				id: 'examples',
-				icon: 'graduation-cap',
-				label: i18n.baseText('mainSidebar.helpMenuItems.course'),
-				link: {
-					href: 'https://docs.n8n.io/courses/',
-					target: '_blank',
-				},
-			},
-			{
-				id: 'report-bug',
-				icon: 'bug',
-				label: i18n.baseText('mainSidebar.helpMenuItems.reportBug'),
-				link: {
-					href: getReportingURL(),
-					target: '_blank',
-				},
-			},
-			{
-				id: 'about',
-				icon: 'info',
-				label: i18n.baseText('mainSidebar.aboutN8n'),
-				position: 'bottom',
-			},
-		],
-	},
-]);
+		},
+		{
+			id: 'variables',
+			icon: 'variable',
+			label: i18n.baseText('mainSidebar.variables'),
+			customIconSize: 'medium',
+			position: 'bottom',
+			available: false, // Force to false to hide this item
+			route: { to: { name: VIEWS.VARIABLES } },
+		},
+		{
+			id: 'help',
+			icon: 'question',
+			label: i18n.baseText('mainSidebar.help'),
+			position: 'bottom',
+			available: false, // Force to false to hide this item
+			children: [
+				// children items omitted for brevity, they're all made unavailable by the parent
+			],
+		},
+	];
+
+	// Filter items to only include those that are available
+	return allItems.filter((item) => {
+		if (item.id === 'cloud-admin') {
+			// Keep original availability logic for cloud-admin
+			return item.available;
+		}
+		// For all other items, use the 'available' property we set above
+		return item.available;
+	});
+});
 const createBtn = ref<InstanceType<typeof N8nNavigationDropdown>>();
 
 const isCollapsed = computed(() => uiStore.sidebarMenuCollapsed);
@@ -477,6 +466,7 @@ onClickOutside(createBtn as Ref<VueInstance>, () => {
 </template>
 
 <style lang="scss" module>
+@import './lumiflow-sidebar.scss';
 .sideMenu {
 	display: grid;
 	position: relative;

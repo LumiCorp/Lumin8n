@@ -28,6 +28,7 @@ const MainHeader = async () => await import('@/components/MainHeader/MainHeader.
 const MainSidebar = async () => await import('@/components/MainSidebar.vue');
 const CanvasChat = async () => await import('@/components/CanvasChat/CanvasChat.vue');
 const NodeView = async () => await import('@/views/NodeView.vue');
+const ExecutionsView = async () => await import('@/views/ExecutionsView.vue');
 const WorkflowExecutionsView = async () => await import('@/views/WorkflowExecutionsView.vue');
 const WorkflowExecutionsLandingPage = async () =>
 	await import('@/components/executions/workflow/WorkflowExecutionsLandingPage.vue');
@@ -82,6 +83,17 @@ export const routes: RouteRecordRaw[] = [
 	{
 		path: '/',
 		redirect: '/home/workflows',
+		meta: {
+			middleware: ['authenticated'],
+		},
+	},
+	{
+		path: '/executions',
+		name: VIEWS.EXECUTIONS_ALL,
+		components: {
+			default: ExecutionsView,
+			sidebar: MainSidebar,
+		},
 		meta: {
 			middleware: ['authenticated'],
 		},

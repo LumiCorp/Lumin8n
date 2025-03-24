@@ -1,0 +1,53 @@
+// Lumiflow Brand Variables
+// This file contains all the custom variables for Lumiflow branding
+
+// Import font families
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
+
+:root {
+	/* Brand Colors */
+	--color-primary: #e27056; // Lumi primary coral
+	--color-primary-tint-1: rgba(226, 112, 86, 0.9);
+	--color-primary-tint-2: rgba(226, 112, 86, 0.8);
+	--color-primary-tint-3: rgba(226, 112, 86, 0.6);
+
+	--color-secondary: #519e81; // Lumi secondary teal
+	--color-secondary-tint-1: rgba(81, 158, 129, 0.9);
+	--color-secondary-tint-2: rgba(81, 158, 129, 0.8);
+	--color-secondary-tint-3: rgba(81, 158, 129, 0.6);
+
+	--color-accent: #669bbc; // Lumi accent blue
+
+	/* Update semantic colors to use our brand colors */
+	--color-success: #519e81; // Using secondary color for success
+	--color-warning: #e27056; // Using primary color for warnings
+	--color-danger: #e25656; // A red that complements our primary
+	--color-info: #669bbc; // Using accent color for info
+
+	/* Typography */
+	--font-family-headings: 'Inter UI', 'Inter', sans-serif;
+	--font-family-body: 'Lato', sans-serif;
+	--font-family-monospace: 'Inconsolata', monospace;
+
+	/* Tighter Spacing */
+	--spacing-2xs: 0.375rem; // 6px (reduced from 8px)
+	--spacing-xs: 0.5rem; // 8px (reduced from 12px)
+	--spacing-s: 0.75rem; // 12px (reduced from 16px)
+	--spacing-m: 1rem; // 16px (reduced from 20px)
+	--spacing-l: 1.25rem; // 20px (reduced from 24px)
+	--spacing-xl: 1.5rem; // 24px (reduced from 32px)
+	--spacing-2xl: 2rem; // 32px (reduced from 40px)
+
+	/* Component Spacing */
+	--card-padding: var(--spacing-s);
+	--dialog-padding: var(--spacing-m);
+}
+
+/* HSL color values for warning components that use HSL */
+:root {
+	--color-warning-h: 14;
+	--color-warning-s: 72%;
+	--color-warning-l: 61%;
+}

@@ -1,0 +1,73 @@
+// Lumiflow custom header styling
+
+// Override main header background and border colors
+.main-header {
+	background-color: white !important;
+	border-bottom: 1px solid rgba(226, 112, 86, 0.2) !important;
+}
+
+// Style the top menu section
+.top-menu {
+	padding: var(--spacing-2xs) var(--spacing-s) !important;
+}
+
+// Style the tab bar
+:global(.el-tabs__item) {
+	color: var(--color-text-dark);
+	font-family: var(--font-family-headings);
+
+	&.is-active {
+		color: var(--color-primary) !important;
+		font-weight: 600;
+	}
+
+	&:hover:not(.is-active) {
+		color: var(--color-secondary) !important;
+	}
+}
+
+:global(.el-tabs__active-bar) {
+	background-color: var(--color-primary) !important;
+}
+
+// Style workflow name and tags
+:global(.workflow-name) {
+	font-family: var(--font-family-headings);
+	font-weight: 600;
+}
+
+:global(.workflow-tag) {
+	background-color: rgba(81, 158, 129, 0.1) !important;
+	border-color: var(--color-secondary) !important;
+	color: var(--color-secondary) !important;
+}
+
+// Style action buttons in the header
+:global(.el-button--primary) {
+	background-color: var(--color-primary) !important;
+	border-color: var(--color-primary) !important;
+
+	&:hover {
+		background-color: darken(#e27056, 5%) !important;
+		border-color: darken(#e27056, 5%) !important;
+	}
+}
+
+:global(.el-button--text) {
+	color: var(--color-secondary) !important;
+
+	&:hover {
+		color: var(--color-primary) !important;
+	}
+}
+
+// GitHub button styling
+.github-button {
+	border-left: 1px solid rgba(226, 112, 86, 0.2) !important;
+}
+
+.close-github-button {
+	&:hover {
+		color: var(--color-primary) !important;
+	}
+}

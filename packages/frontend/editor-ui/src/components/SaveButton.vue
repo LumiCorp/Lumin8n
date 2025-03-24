@@ -24,9 +24,7 @@ const props = withDefaults(
 const i18n = useI18n();
 
 const saveButtonLabel = computed(() => {
-	return props.isSaving
-		? (props.savingLabel ?? i18n.baseText('saveButton.saving'))
-		: i18n.baseText('saveButton.save');
+	return props.isSaving ? (props.savingLabel ?? 'Saving...') : 'Save';
 });
 
 const shortcutTooltipLabel = computed(() => {
@@ -36,7 +34,7 @@ const shortcutTooltipLabel = computed(() => {
 
 <template>
 	<span :class="$style.container" data-test-id="save-button">
-		<span v-if="saved" :class="$style.saved">{{ i18n.baseText('saveButton.saved') }}</span>
+		<span v-if="saved" :class="$style.saved">Saved</span>
 		<template v-else>
 			<KeyboardShortcutTooltip
 				v-if="withShortcut"

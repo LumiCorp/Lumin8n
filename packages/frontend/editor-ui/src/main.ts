@@ -19,8 +19,8 @@ import '@fontsource/open-sans/latin-700.css';
 import App from '@/App.vue';
 import router from './router';
 
-import { TelemetryPlugin } from './plugins/telemetry';
-import { i18nInstance } from './plugins/i18n';
+// import { TelemetryPlugin } from './plugins/telemetry';
+// Removed i18n for internal distribution
 import { GlobalComponentsPlugin } from './plugins/components';
 import { GlobalDirectivesPlugin } from './plugins/directives';
 import { FontAwesomePlugin } from './plugins/icons';
@@ -33,15 +33,15 @@ const pinia = createPinia();
 
 const app = createApp(App);
 
-app.use(SentryPlugin);
-app.use(TelemetryPlugin);
+app.use(SentryPlugin); // Using no-op implementation
+// app.use(TelemetryPlugin);
 app.use(PiniaVuePlugin);
 app.use(FontAwesomePlugin);
 app.use(GlobalComponentsPlugin);
 app.use(GlobalDirectivesPlugin);
 app.use(pinia);
 app.use(router);
-app.use(i18nInstance);
+// Removed i18n for internal distribution
 app.use(ChartJSPlugin);
 
 app.mount('#app');

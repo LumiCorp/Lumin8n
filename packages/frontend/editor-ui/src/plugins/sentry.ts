@@ -1,7 +1,24 @@
 import type { Plugin } from 'vue';
 import { AxiosError } from 'axios';
 import { ResponseError } from '@/utils/apiUtils';
-import * as Sentry from '@sentry/vue';
+import type { ErrorEvent, EventHint } from '@sentry/vue';
+
+// No-op implementation to maintain API compatibility while disabling external reporting
+// Create a simplified Sentry mock
+const SentryMock = {
+	init: () => {},
+	captureException: () => {},
+	captureMessage: () => {},
+	setTag: () => {},
+	setUser: () => {},
+	setContext: () => {},
+	setExtra: () => {},
+	rewriteFramesIntegration: () => ({ root: '' }),
+};
+
+// Export the mock for any imports
+export * from '@sentry/vue';
+export default SentryMock;
 
 const ignoredErrors = [
 	{ instanceof: AxiosError },
@@ -14,55 +31,29 @@ const ignoredErrors = [
 	{ instanceof: Error, message: /ResizeObserver/ },
 ] as const;
 
-export function beforeSend(event: Sentry.ErrorEvent, { originalException }: Sentry.EventHint) {
-	if (
-		!originalException ||
-		ignoredErrors.some((entry) => {
-			const typeMatch = originalException instanceof entry.instanceof;
-			if (!typeMatch) {
-				return false;
-			}
-
-			if ('message' in entry) {
-				if (entry.message instanceof RegExp) {
-					return entry.message.test(originalException.message ?? '');
-				} else {
-					return originalException.message === entry.message;
-				}
-			}
-
-			return true;
-		})
-	) {
-		return null;
-	}
-
-	return event;
+// Keep the beforeSend function for compatibility, but make it a no-op
+export function beforeSend(event: ErrorEvent, { originalException }: EventHint) {
+	console.debug('Sentry beforeSend called (disabled for internal distribution)', {
+		event,
+		originalException,
+	});
+	return null; // Always return null to prevent sending
 }
 
+// Create a no-op plugin
 export const SentryPlugin: Plugin = {
 	install: (app) => {
-		if (!window.sentry?.dsn) {
-			return;
-		}
-
-		const { dsn, release, environment, serverName } = window.sentry;
-
-		Sentry.init({
-			app,
-			dsn,
-			release,
-			environment,
-			integrations: [
-				Sentry.rewriteFramesIntegration({
-					root: window.location.origin + '/',
-				}),
-			],
-			beforeSend,
-		});
-
-		if (serverName) {
-			Sentry.setTag('server_name', serverName);
-		}
+		console.debug('Sentry plugin install called (disabled for internal distribution)');
+		// Do nothing, effectively disabling Sentry
 	},
+};
+
+// Override captureException to prevent any reporting
+export const captureException = (exception: Error | unknown, context?: Record<string, unknown>) => {
+	console.debug('Sentry captureException called (disabled for internal distribution)', {
+		exception,
+		context,
+	});
+	// Return an empty string as a mock event_id
+	return '';
 };

@@ -15,10 +15,52 @@ import type {
 	ResourceMapperFields,
 } from 'n8n-workflow';
 import axios from 'axios';
+import { getFallbackNodeTypes } from '@/utils/fallbackNodeTypes';
 
 export async function getNodeTypes(baseUrl: string) {
-	const { data } = await axios.get(baseUrl + 'types/nodes.json', { withCredentials: true });
-	return data;
+	try {
+		console.log(`Fetching node types from: ${baseUrl}types/nodes.json`);
+		const response = await axios.get(baseUrl + 'types/nodes.json', {
+			withCredentials: true,
+			// Add timeout to ensure we don't hang forever
+			timeout: 10000,
+		});
+
+		console.log(`Node types fetch successful. Status: ${response.status}`);
+		console.log(`Received ${response.data?.length || 0} node types`);
+
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching node types:', error);
+
+		if (axios.isAxiosError(error)) {
+			console.error(`Status: ${error.response?.status}, Message: ${error.message}`);
+			console.error('Response data:', error.response?.data);
+
+			// Try alternative endpoint for node types via REST API
+			try {
+				console.log('Attempting to fetch node types via REST API endpoint');
+				const fallbackResponse = await axios.get(baseUrl + 'rest/node-types', {
+					withCredentials: true,
+					timeout: 10000,
+				});
+
+				console.log(`Fallback node types fetch successful. Status: ${fallbackResponse.status}`);
+				console.log(`Received ${fallbackResponse.data?.data?.length || 0} node types via fallback`);
+
+				return fallbackResponse.data?.data || [];
+			} catch (fallbackError) {
+				console.error('Fallback node types request also failed:', fallbackError);
+				// Use our hard-coded fallback node types
+				console.warn('Using hard-coded fallback node types');
+				return getFallbackNodeTypes();
+			}
+		}
+
+		// Use our hard-coded fallback node types for all other error cases
+		console.warn('Using hard-coded fallback node types for unknown error');
+		return getFallbackNodeTypes();
+	}
 }
 
 export async function getNodeTranslationHeaders(
